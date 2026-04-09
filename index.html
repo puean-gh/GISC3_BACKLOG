@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GISC3 BACKLOG</title>
+    <title>GISC3 Data Management</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -30,10 +30,11 @@
     </script>
     
     <style>
-        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .nav-item.active { background-color: rgba(255, 255, 255, 0.1); border-left-color: #f59e0b; color: white; }
     </style>
 </head>
 <body class="bg-background text-slate-700 font-sans antialiased selection:bg-pea/20 selection:text-pea overflow-hidden">
@@ -50,14 +51,14 @@
 </div>
 
 <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[3000] hidden items-center justify-center p-4 sm:p-6 transition-opacity duration-300 opacity-0">
-    <div id="summaryModalContent" class="bg-white rounded-[2rem] shadow-modal w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden transform transition-all duration-300 scale-95 opacity-0 border-t-8 border-t-pea">
+    <div id="summaryModalContent" class="bg-white rounded-[2rem] shadow-modal w-full max-w-[90vw] max-h-[90vh] flex flex-col overflow-hidden transform transition-all duration-300 scale-95 opacity-0 border-t-8 border-t-pea">
         <div class="flex justify-between items-center px-8 py-6 border-b border-slate-100 bg-slate-50/50">
             <div class="flex items-center gap-4">
                 <div class="p-3 bg-pea text-white rounded-xl shadow-md">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold text-slate-800 tracking-wide">วิเคราะห์สัดส่วนข้อมูล กฟภ.</h3>
+                    <h3 class="text-xl font-bold text-slate-800 tracking-wide">กราฟวิเคราะห์สัดส่วนข้อมูล กฟภ.</h3>
                     <p id="summaryColInfo" class="text-sm text-slate-500 font-medium mt-1">กำลังคำนวณ...</p>
                 </div>
             </div>
@@ -68,7 +69,7 @@
         <div class="p-6 sm:p-8 overflow-y-auto custom-scrollbar flex-1 bg-white" id="summaryModalBody"></div>
         <div class="px-8 py-5 border-t border-slate-100 bg-slate-50 flex justify-between items-center">
             <span id="summaryTotalCount" class="font-bold text-pea text-lg">รวมทั้งหมด 0 รายการ</span>
-            <button onclick="closeSummaryModal()" class="px-6 py-2.5 bg-pea hover:bg-peaDark text-white font-semibold rounded-xl transition-all shadow-sm">ปิดหน้าต่าง</button>
+            <button onclick="closeSummaryModal()" class="px-8 py-2.5 bg-pea hover:bg-peaDark text-white font-semibold rounded-xl transition-all shadow-sm">ปิดหน้าต่าง</button>
         </div>
     </div>
 </div>
@@ -81,16 +82,20 @@
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clip-rule="evenodd"></path></svg>
                 </div>
                 <div class="flex flex-col overflow-hidden">
-                    <h1 class="text-lg font-bold text-white tracking-wide truncate">GISC3 BACKLOG</h1>
-                    <p class="text-peaGold text-[10px] font-medium uppercase tracking-widest truncate">Data Management</p>
+                    <h1 class="text-base font-bold text-white tracking-wide truncate mt-1">GISC3</h1>
+                    <p class="text-[10px] text-peaGold font-medium uppercase tracking-widest truncate">Data Management</p>
                 </div>
             </div>
         </div>
         <nav class="flex-1 overflow-y-auto py-4 custom-scrollbar flex flex-col gap-1 px-3 min-w-[256px]">
             <div class="px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider mb-1">เมนูหลัก</div>
             <button id="nav-dashboard" onclick="selectMenu('dashboard', '📊 ภาพรวมระบบ (Overview)')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-peaGold bg-white/10 text-white shadow-sm">
-                <svg class="w-5 h-5 opacity-90 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                <svg class="w-5 h-5 opacity-90 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                 <span class="truncate">ภาพรวมระบบ</span>
+            </button>
+            <button id="nav-kpi" onclick="selectMenu('kpi', '📈 ผลการดำเนินการประจำปี 2569')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-transparent text-white/70 hover:bg-white/5">
+                <svg class="w-5 h-5 opacity-90 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <span class="truncate">ผลการดำเนินการปี 69</span>
             </button>
             <div class="px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider mt-4 mb-1">ระบบงานต่างๆ</div>
             <div id="dynamicNavLinks" class="flex flex-col gap-1">
@@ -113,7 +118,31 @@
             </div>
             
             <div class="flex items-center gap-4" id="topActionArea">
-                <div class="relative w-[250px] hidden md:block" id="searchContainer">
+                <div id="kpiDropdownContainer" class="hidden relative">
+                    <select id="kpiMonthSelect" onchange="changeKpiMonth()" class="pl-4 pr-10 py-2.5 bg-pea/5 border border-pea/20 text-pea font-bold rounded-xl focus:outline-none focus:ring-2 focus:ring-pea/40 shadow-sm appearance-none cursor-pointer">
+                        <option value="มกราคม" selected>มกราคม</option>
+                        <option value="กุมภาพันธ์">กุมภาพันธ์</option>
+                        <option value="มีนาคม">มีนาคม</option>
+                        <option value="เมษายน">เมษายน</option>
+                        <option value="พฤษภาคม">พฤษภาคม</option>
+                        <option value="มิถุนายน">มิถุนายน</option>
+                        <option value="กรกฎาคม">กรกฎาคม</option>
+                        <option value="สิงหาคม">สิงหาคม</option>
+                        <option value="กันยายน">กันยายน</option>
+                        <option value="ตุลาคม">ตุลาคม</option>
+                        <option value="พฤศจิกายน">พฤศจิกายน</option>
+                        <option value="ธันวาคม">ธันวาคม</option>
+                        <option value="ไตรมาส 1">ไตรมาส 1</option>
+                        <option value="ไตรมาส 2">ไตรมาส 2</option>
+                        <option value="ไตรมาส 3">ไตรมาส 3</option>
+                        <option value="ไตรมาส 4">ไตรมาส 4</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-pea">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+
+                <div class="relative hidden md:block" id="searchContainer">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
@@ -131,7 +160,7 @@
                 <select id="rowSelect" onchange="updateRowsPerPage()" class="hidden pl-4 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-slate-600 font-medium focus:outline-none cursor-pointer hover:bg-slate-50 appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[position:calc(100%-10px)_center] bg-no-repeat shadow-sm text-sm">
                     <option value="10">10 แถว</option>
                     <option value="20" selected>20 แถว</option>
-                    <option value="30">30 แถว</option>
+                    <option value="50">50 แถว</option>
                     <option value="all">ทั้งหมด</option>
                 </select>
             </div>
@@ -147,7 +176,7 @@
                 <div id="tabArea" class="flex flex-wrap gap-2"></div>
                 <div class="bg-white rounded-2xl shadow-soft border border-slate-200 flex flex-col flex-1 overflow-hidden">
                     <div class="flex-1 custom-scrollbar overflow-x-auto overflow-y-auto">
-                        <table class="w-full text-sm text-left text-slate-600 border-collapse">
+                        <table class="w-full text-sm text-left text-slate-600 border-collapse whitespace-nowrap">
                             <thead id="thead" class="text-xs text-white uppercase bg-peaLight sticky top-0 z-10 border-b border-pea font-semibold tracking-wider shadow-sm"></thead>
                             <tbody id="tbody" class="divide-y divide-slate-100"></tbody>
                         </table>
@@ -162,6 +191,19 @@
                     </div>
                 </div>
             </div>
+
+            <!-- หน้า KPI แสดงทั้งหมด ไม่มีปุ่มเปลี่ยนหน้า -->
+            <div id="kpiView" class="hidden h-full flex-col gap-4 max-w-[100vw]">
+                <div class="bg-white rounded-2xl shadow-soft border border-slate-200 flex flex-col flex-1 overflow-hidden">
+                    <div class="flex-1 custom-scrollbar overflow-x-auto overflow-y-auto">
+                        <table class="w-full text-sm text-left border-collapse whitespace-nowrap">
+                            <thead id="kpiThead" class="text-[13px] font-semibold tracking-wider sticky top-0 z-10 shadow-sm border-b-2 border-pea/20"></thead>
+                            <tbody id="kpiTbody" class="divide-y divide-slate-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 </div>
@@ -247,26 +289,31 @@
         document.getElementById("currentPageTitle").innerText = titleName;
         currentFileId = value; 
 
+        // รีเซ็ตคลาสเมนูทั้งหมด
         document.querySelectorAll('.nav-item').forEach(el => {
             el.classList.remove('bg-white/10', 'border-peaGold', 'text-white');
             el.classList.add('text-white/70', 'border-transparent');
         });
+        
         let activeEl = document.getElementById('nav-' + value);
         if(activeEl) {
             activeEl.classList.remove('text-white/70', 'border-transparent');
             activeEl.classList.add('bg-white/10', 'border-peaGold', 'text-white');
         }
 
-        if (value === "dashboard") {
-            document.getElementById("tableView").classList.add("hidden");
-            document.getElementById("dashboardView").classList.remove("hidden");
-            
-            document.getElementById("summaryBtn").classList.add("hidden"); 
-            document.getElementById("exportBtn").classList.add("hidden");
-            document.getElementById("rowSelect").classList.add("hidden");
-            document.getElementById("searchContainer").classList.add("hidden");
-            document.getElementById("actionDivider").classList.add("hidden");
+        // ซ่อนทุกหน้าก่อน
+        document.getElementById("dashboardView").classList.add("hidden");
+        document.getElementById("tableView").classList.add("hidden");
+        document.getElementById("kpiView").classList.add("hidden");
+        document.getElementById("summaryBtn").classList.add("hidden"); 
+        document.getElementById("exportBtn").classList.add("hidden");
+        document.getElementById("rowSelect").classList.add("hidden");
+        document.getElementById("searchContainer").classList.add("hidden");
+        document.getElementById("actionDivider").classList.add("hidden");
+        document.getElementById("kpiDropdownContainer").classList.add("hidden");
 
+        if (value === "dashboard") {
+            document.getElementById("dashboardView").classList.remove("hidden");
             document.getElementById("loading").classList.remove("hidden");
             document.getElementById("loading").classList.add("flex");
             
@@ -306,11 +353,16 @@
                 })
                 .catch(err => console.error(err));
             
+        } else if (value === "kpi") {
+            // โชว์หน้า KPI
+            document.getElementById("kpiView").classList.remove("hidden");
+            document.getElementById("kpiView").classList.add("flex");
+            document.getElementById("kpiDropdownContainer").classList.remove("hidden");
+            changeKpiMonth(); // ดึงข้อมูล KPI ตามเดือนที่เลือก
         } else {
-            document.getElementById("dashboardView").classList.add("hidden");
+            // โชว์หน้า Table ปกติ
             document.getElementById("tableView").classList.remove("hidden");
             document.getElementById("tableView").classList.add("flex");
-            
             document.getElementById("summaryBtn").classList.remove("hidden");
             document.getElementById("summaryBtn").classList.add("flex");
             document.getElementById("exportBtn").classList.remove("hidden");
@@ -324,6 +376,53 @@
     }
 
     function clickCard(fileId, name) { selectMenu(fileId, name); }
+
+    // ฟังก์ชันสำหรับหน้า KPI (ดึงข้อมูลพร้อมสีพื้นหลังและสีตัวอักษรแบบ Fetch)
+    function changeKpiMonth() {
+        let month = document.getElementById("kpiMonthSelect").value;
+        document.getElementById("loading").classList.remove("hidden");
+        document.getElementById("loading").classList.add("flex");
+
+        fetch(API_URL + "?action=getKpiData&month=" + encodeURIComponent(month))
+            .then(res => res.json())
+            .then(res => {
+                if(res && res.values.length > 0) {
+                    let data = res.values;
+                    let bgs = res.backgrounds;
+                    let fcs = res.fontColors;
+
+                    // จัดการหัวตาราง KPI
+                    let headHtml = "<tr>";
+                    data[0].forEach((h, i) => {
+                        let bg = bgs[0][i] === "#ffffff" ? "#9d2884" : bgs[0][i]; // แทนที่สีขาวด้วยสีม่วง PEA
+                        let fc = fcs[0][i] === "#000000" ? "#ffffff" : fcs[0][i]; // สลับสีดำเป็นขาวให้อ่านง่าย
+                        headHtml += `<th class="px-6 py-4 font-bold border-x border-slate-200" style="background-color: ${bg}; color: ${fc};">${h}</th>`;
+                    });
+                    document.getElementById("kpiThead").innerHTML = headHtml + "</tr>";
+
+                    // จัดการเนื้อหาตาราง KPI พร้อมใส่สี
+                    let bodyHtml = "";
+                    for (let i = 1; i < data.length; i++) {
+                        let row = data[i];
+                        bodyHtml += `<tr class="transition-colors hover:bg-slate-50 border-b border-slate-200">`;
+                        row.forEach((cell, colIndex) => {
+                            let bg = bgs[i][colIndex];
+                            let fc = fcs[i][colIndex];
+                            bodyHtml += `<td class="px-6 py-2.5 border-x border-slate-100" style="background-color: ${bg}; color: ${fc};">${cell}</td>`;
+                        });
+                        bodyHtml += "</tr>";
+                    }
+                    document.getElementById("kpiTbody").innerHTML = bodyHtml;
+                }
+                document.getElementById("loading").classList.add("hidden");
+                document.getElementById("loading").classList.remove("flex");
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById("loading").classList.add("hidden");
+                document.getElementById("loading").classList.remove("flex");
+            });
+    }
 
     function loadFile(sheetIdx, overrideFileId) {
         document.getElementById("loading").classList.remove("hidden");
@@ -361,8 +460,13 @@
             .catch(err => console.error(err));
     }
 
+    // Modal วิเคราะห์กราฟแท่งแบบกว้าง เลื่อนดูได้
     function openSummaryModal() {
-        if (filteredData.length === 0 || allData.length <= 1) return;
+        // เช็คเผื่อยังไม่มีข้อมูล
+        if (filteredData.length === 0 || allData.length <= 1) {
+            alert("ไม่พบข้อมูลสำหรับสร้างกราฟ กรุณารอโหลดข้อมูลหรือยกเลิกการค้นหาก่อนครับ");
+            return;
+        }
 
         let headers = allData[0];
         let targetColIndex = -1;
@@ -391,6 +495,12 @@
             }
         }
 
+        // เปิด Modal ก่อนเพื่อให้ Canvas เข้าไปฝังใน DOM
+        let modal = document.getElementById("summaryModal");
+        let modalContent = document.getElementById("summaryModalContent");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
         let htmlContent = "";
         
         if (targetColIndex === -1) {
@@ -404,7 +514,7 @@
             document.getElementById("summaryModalBody").innerHTML = htmlContent;
         } else {
             let colName = headers[targetColIndex];
-            document.getElementById("summaryColInfo").innerText = `ดึงข้อมูลจากคอลัมน์: "${colName}"`;
+            document.getElementById("summaryColInfo").innerText = `วิเคราะห์ข้อมูลตามคอลัมน์: "${colName}"`;
             
             let counts = {};
             let totalValidItems = 0;
@@ -424,21 +534,23 @@
                 totalValidItems++;
             });
 
+            // เรียงลำดับจากมากไปน้อย (ซ้ายไปขวา)
             let sortedOffices = Object.entries(counts).sort((a, b) => b[1] - a[1]);
 
             let chartLabels = [];
             let chartData = [];
+            const baseColors = ['#74045f', '#f59e0b', '#9d2884', '#0ea5e9', '#10b981', '#f43f5e', '#8b5cf6', '#eab308', '#64748b', '#0f766e', '#be123c', '#4338ca'];
+            let chartColors = [];
             
-            let listHtml = `<div class="flex flex-col gap-3 h-[40vh] md:h-auto md:max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">`;
-            const chartColors = ['#74045f', '#f59e0b', '#9d2884', '#0ea5e9', '#10b981', '#f43f5e', '#8b5cf6', '#eab308', '#64748b', '#0f766e', '#be123c', '#4338ca'];
+            let listHtml = `<div class="flex flex-col gap-3 h-[40vh] lg:h-auto lg:max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">`;
 
             sortedOffices.forEach(([name, count], idx) => {
                 chartLabels.push(name);
                 chartData.push(count);
 
                 let rankStyle = "border-slate-100 bg-white hover:bg-slate-50";
-                let rankColor = "text-slate-400";
-                let badgeColor = chartColors[idx % chartColors.length];
+                let badgeColor = baseColors[idx % baseColors.length];
+                chartColors.push(badgeColor);
                 
                 if (name !== "ไม่ระบุ/ว่างเปล่า") {
                     if (idx === 0) rankStyle = "border-pea/30 bg-pea/5 shadow-sm"; 
@@ -451,27 +563,32 @@
                     : `<span class="text-slate-300">➖</span>`;
 
                 listHtml += `
-                <div class="flex items-center justify-between p-3 md:p-4 border rounded-2xl transition-colors ${rankStyle}">
-                    <div class="flex items-center gap-3 md:gap-4 pr-4">
-                        <div class="w-8 flex-shrink-0 text-center">${rankBadge}</div>
-                        <div class="font-semibold text-slate-700 text-sm md:text-base leading-snug">${name}</div>
+                <div class="flex items-center justify-between p-3 border rounded-2xl transition-colors ${rankStyle}">
+                    <div class="flex items-center gap-3 pr-4">
+                        <div class="w-6 flex-shrink-0 text-center">${rankBadge}</div>
+                        <div class="font-semibold text-slate-700 text-sm leading-snug">${name}</div>
                     </div>
-                    <div class="flex-shrink-0 font-bold text-pea bg-white border border-pea/20 px-4 py-1.5 md:px-5 md:py-2 rounded-xl shadow-sm text-base md:text-lg">
+                    <div class="flex-shrink-0 font-bold text-pea bg-white border border-pea/20 px-4 py-1.5 rounded-xl shadow-sm text-base">
                         ${count}
                     </div>
                 </div>`;
             });
             listHtml += `</div>`;
 
+            // คำนวณความกว้างของกราฟตามจำนวนแท่ง เพื่อให้เกิดการสไลด์แนวนอน
+            let chartWidth = Math.max(800, chartLabels.length * 55);
+
             htmlContent = `
-            <div class="flex flex-col md:flex-row gap-8 items-center md:items-start w-full">
-                <div class="w-full md:w-5/12 flex flex-col items-center justify-center p-4 bg-slate-50 rounded-[2rem] border border-slate-100">
-                    <div class="relative w-[220px] h-[220px] lg:w-[280px] lg:h-[280px]">
-                        <canvas id="peaDoughnutChart"></canvas>
+            <div class="flex flex-col lg:flex-row gap-8 items-start w-full">
+                <div class="w-full lg:w-8/12 flex flex-col p-4 bg-slate-50 rounded-[2rem] border border-slate-100">
+                    <p class="mb-4 text-sm font-bold text-slate-500 text-center">ยอดรวมทั้งหมด <span class="text-2xl font-black text-pea">${totalValidItems.toLocaleString()}</span> รายการ</p>
+                    <div class="w-full overflow-x-auto custom-scrollbar pb-4">
+                        <div style="width: ${chartWidth}px; height: 400px;">
+                            <canvas id="peaBarChart"></canvas>
+                        </div>
                     </div>
-                    <p class="mt-6 text-sm font-medium text-slate-500 text-center">ยอดรวมทั้งหมด<br><span class="text-3xl font-extrabold text-pea">${totalValidItems.toLocaleString()}</span></p>
                 </div>
-                <div class="w-full md:w-7/12">
+                <div class="w-full lg:w-4/12 flex flex-col">
                     ${listHtml}
                 </div>
             </div>`;
@@ -479,25 +596,36 @@
             document.getElementById("summaryTotalCount").innerText = `พบข้อมูลรวม ${totalValidItems.toLocaleString()} รายการ`;
             document.getElementById("summaryModalBody").innerHTML = htmlContent;
 
+            // หน่วงเวลาให้ Canvas เรนเดอร์บนหน้าจอเสร็จก่อนเรียก Chart.js
             setTimeout(() => {
-                let ctx = document.getElementById('peaDoughnutChart').getContext('2d');
+                let canvasEl = document.getElementById('peaBarChart');
+                if(!canvasEl) return;
+                let ctx = canvasEl.getContext('2d');
                 if (myChartInstance) myChartInstance.destroy(); 
                 
                 myChartInstance = new Chart(ctx, {
-                    type: 'doughnut', 
-                    data: { labels: chartLabels, datasets: [{ data: chartData, backgroundColor: chartColors, borderWidth: 2, borderColor: '#ffffff', hoverOffset: 12 }] },
+                    type: 'bar', 
+                    data: { 
+                        labels: chartLabels, 
+                        datasets: [{ 
+                            data: chartData, 
+                            backgroundColor: chartColors, 
+                            borderRadius: 4,
+                            maxBarThickness: 40 // ขนาดความหนาของแท่งกราฟ
+                        }] 
+                    },
                     options: {
-                        responsive: true, maintainAspectRatio: false, cutout: '70%', 
-                        plugins: { legend: { display: false }, tooltip: { titleFont: { family: 'Sarabun', size: 14 }, bodyFont: { family: 'Sarabun', size: 15, weight: 'bold' }, backgroundColor: 'rgba(116, 4, 95, 0.9)', padding: 12, cornerRadius: 8 } }
+                        responsive: true, maintainAspectRatio: false, 
+                        plugins: { legend: { display: false }, tooltip: { titleFont: { family: 'Sarabun', size: 14 }, bodyFont: { family: 'Sarabun', size: 15, weight: 'bold' }, backgroundColor: 'rgba(116, 4, 95, 0.9)', padding: 12, cornerRadius: 8 } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { font: { family: 'Sarabun', size: 12 }, autoSkip: false, maxRotation: 45, minRotation: 45 } },
+                            y: { beginAtZero: true, grid: { borderDash: [5, 5] }, ticks: { font: { family: 'Sarabun', size: 12 } } }
+                        }
                     }
                 });
-            }, 50); 
+            }, 150); 
         }
         
-        let modal = document.getElementById("summaryModal");
-        let modalContent = document.getElementById("summaryModalContent");
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
         setTimeout(() => {
             modal.classList.remove("opacity-0");
             modalContent.classList.remove("scale-95", "opacity-0");
