@@ -36,12 +36,28 @@
     </script>
     
     <style>
-        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .nav-item.active { background-color: rgba(255, 255, 255, 0.1); border-left-color: #f59e0b; color: white; }
+        /* สไตล์สำหรับ Scrollbar ภายในตาราง */
+        .custom-scrollbar::-webkit-scrollbar { 
+            height: 8px; 
+            width: 8px; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb { 
+            background: #cbd5e1; 
+            border-radius: 10px; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { 
+            background: #94a3b8; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-track { 
+            background: transparent; 
+        }
+        .nav-item.active { 
+            background-color: rgba(255, 255, 255, 0.1); 
+            border-left-color: #f59e0b; 
+            color: white; 
+        }
         
+        /* บังคับ Hover หน้า KPI เป็นโทนม่วงอ่อนของ PEA */
         .kpi-row:hover td {
             background-color: #fce7f3 !important; 
             color: #74045f !important;
@@ -57,10 +73,12 @@
         <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
         <div class="absolute inset-0 border-4 border-pea border-t-transparent rounded-full animate-spin"></div>
         <div class="absolute inset-0 flex items-center justify-center text-pea animate-pulse">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clip-rule="evenodd"></path></svg>
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clip-rule="evenodd"></path>
+            </svg>
         </div>
     </div>
-    <div class="font-bold text-pea text-lg tracking-wide">กำลังดึงข้อมูลจาก Google Sheet .....</div>
+    <div class="font-bold text-pea text-lg tracking-wide">กำลังดึงข้อมูลจากระบบ .....</div>
 </div>
 
 <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[3000] hidden items-center justify-center p-4 sm:p-6 transition-opacity duration-300 opacity-0">
@@ -68,7 +86,9 @@
         <div class="flex justify-between items-center px-8 py-6 border-b border-slate-100 bg-slate-50/50">
             <div class="flex items-center gap-4">
                 <div class="p-3 bg-pea text-white rounded-xl shadow-md">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
                 </div>
                 <div>
                     <h3 class="text-xl font-bold text-slate-800 tracking-wide">กราฟวิเคราะห์สัดส่วนข้อมูล กฟภ.</h3>
@@ -76,7 +96,9 @@
                 </div>
             </div>
             <button onclick="closeSummaryModal()" class="text-slate-400 hover:text-rose-500 hover:bg-rose-50 p-2 rounded-xl transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
             </button>
         </div>
         <div class="p-6 sm:p-8 overflow-y-auto custom-scrollbar flex-1 bg-white" id="summaryModalBody"></div>
@@ -92,7 +114,9 @@
         <div class="h-[72px] flex items-center justify-center px-6 bg-pea shadow-md z-10 flex-shrink-0">
             <div class="flex items-center gap-3 w-full">
                 <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-white/20 text-white backdrop-blur-sm border border-white/30 shadow-sm flex-shrink-0">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clip-rule="evenodd"></path></svg>
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clip-rule="evenodd"></path>
+                    </svg>
                 </div>
                 <div class="flex flex-col overflow-hidden">
                     <h1 class="text-base font-bold text-white tracking-wide truncate mt-1">GISC3</h1>
@@ -103,12 +127,14 @@
         <nav class="flex-1 overflow-y-auto py-4 custom-scrollbar flex flex-col gap-1 px-3 min-w-[256px]">
             <div class="px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider mb-1">เมนูหลัก</div>
             <button id="nav-kpi" onclick="selectMenu('kpi', '📈 ผลการดำเนินการประจำปี 2569')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-peaGold bg-white/10 text-white shadow-sm">
-                <svg class="w-5 h-5 opacity-90 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <svg class="w-5 h-5 opacity-90 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
                 <span class="truncate">ผลการดำเนินการปี 69</span>
             </button>
             <div class="px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider mt-4 mb-1">ระบบงานต่างๆ</div>
             <div id="dynamicNavLinks" class="flex flex-col gap-1">
-                <div class="px-4 py-2 text-sm text-white/40 italic">กำลังโหลด...</div>
+                <div class="px-4 py-2 text-sm text-white/40 italic">กำลังเชื่อมต่อ API...</div>
             </div>
         </nav>
         <div class="p-4 border-t border-white/10 text-center min-w-[256px]">
@@ -120,7 +146,9 @@
         <header class="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 shadow-sm z-10 flex-shrink-0">
             <div class="flex items-center gap-2 md:gap-4">
                 <button onclick="toggleSidebar()" class="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors focus:outline-none focus:ring-2 focus:ring-pea/20 border border-slate-100 shadow-sm" title="เปิด/ปิด แถบเมนู">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
                 </button>
                 <div class="h-6 w-px bg-slate-200 mx-1 hidden md:block"></div>
                 <h2 id="currentPageTitle" class="text-xl font-bold text-slate-800 m-0 tracking-wide drop-shadow-sm truncate">📈 ผลการดำเนินการประจำปี 2569</h2>
@@ -147,31 +175,45 @@
                         <option value="ไตรมาส 4">ไตรมาส 4</option>
                     </select>
                     <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-pea">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </div>
                 </div>
 
                 <div class="relative hidden md:block" id="searchContainer">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
                     </div>
                     <input type="text" id="search" onkeyup="handleSearch()" placeholder="ค้นหาข้อมูล..." class="w-full pl-10 pr-4 py-2 bg-slate-100 border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-pea/20 focus:bg-white transition-all text-slate-700 text-sm">
                 </div>
                 <div class="h-6 w-px bg-slate-200 hidden md:block" id="actionDivider"></div>
+                
                 <button id="summaryBtn" onclick="openSummaryModal()" class="hidden group items-center gap-2 bg-peaGold hover:bg-yellow-500 text-peaDark font-bold py-2 px-4 rounded-xl shadow-sm hover:shadow-md transition-all text-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                    </svg>
                     กราฟวิเคราะห์
                 </button>
                 <button id="exportBtn" onclick="exportToExcel()" class="flex group items-center gap-2 bg-[#107c41] hover:bg-[#0c5c30] text-white font-medium py-2 px-4 rounded-xl shadow-sm hover:shadow-md transition-all text-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
                     Excel
                 </button>
                 <select id="rowSelect" onchange="updateRowsPerPage()" class="hidden pl-4 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-slate-600 font-medium focus:outline-none cursor-pointer hover:bg-slate-50 appearance-none shadow-sm text-sm">
-                    <option value="10">10 แถว</option><option value="20" selected>20 แถว</option><option value="50">50 แถว</option><option value="all">ทั้งหมด</option>
+                    <option value="10">10 แถว</option>
+                    <option value="20" selected>20 แถว</option>
+                    <option value="50">50 แถว</option>
+                    <option value="all">ทั้งหมด</option>
                 </select>
             </div>
         </header>
 
+        <!-- พื้นที่แสดงผลตาราง (มี Scrollbar ด้านใน) -->
         <main class="flex-1 w-full overflow-hidden p-4 md:p-6 flex flex-col" id="mainArea">
 
             <div id="tableView" class="hidden flex-col gap-4 w-full h-full flex-1 min-h-0">
@@ -194,7 +236,6 @@
                 </div>
             </div>
 
-            <!-- หน้า KPI มี Scrollbar ภายในตัว และค้นหาข้อมูลได้ -->
             <div id="kpiView" class="flex flex-col gap-4 w-full h-full flex-1 min-h-0">
                 <div class="bg-white rounded-xl shadow-soft border border-slate-200 flex flex-col flex-1 min-h-0 overflow-hidden w-full">
                     <div class="flex-1 custom-scrollbar overflow-auto">
@@ -211,6 +252,11 @@
 </div>
 
 <script>
+    // =========================================================
+    // API URL ของ Google Apps Script (สำคัญมาก: ห้ามลบ)
+    // =========================================================
+    const API_URL = "https://script.google.com/macros/s/AKfycbxQmhndxsR1qZjfy9p_vqFKz0eRoeXV5XpLb5ZF2X0TzmHOe89-qtHxgPdi2gfE7Is/exec";
+
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         if (sidebar.classList.contains('w-64')) {
@@ -228,27 +274,38 @@
     let rowsPerPage = 20;
     let currentFileId = "";
     let currentSheetName = "";
-    let currentViewMode = "kpi"; // เปลี่ยน Default เป็น kpi
+    let currentViewMode = "kpi"; 
     let myChartInstance = null; 
     let kpiRawData = null; 
 
     window.onload = function() {
-        google.script.run.withSuccessHandler(function(files) {
-            let navHtml = '';
-            files.forEach(f => {
-                navHtml += `
-                <button id="nav-${f.id}" onclick="selectMenu('${f.id}', '${f.name}')" 
-                    class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-transparent text-white/70 hover:bg-white/5 hover:text-white">
-                    <svg class="w-5 h-5 opacity-70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    <span class="truncate">${f.name}</span>
-                </button>`;
+        fetch(API_URL + "?action=getFileList")
+            .then(res => res.json())
+            .then(files => {
+                let navHtml = '';
+                files.forEach(f => {
+                    navHtml += `
+                    <button id="nav-${f.id}" onclick="selectMenu('${f.id}', '${f.name}')" 
+                        class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-transparent text-white/70 hover:bg-white/5 hover:text-white">
+                        <svg class="w-5 h-5 opacity-70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span class="truncate">${f.name}</span>
+                    </button>`;
+                });
+                document.getElementById("dynamicNavLinks").innerHTML = navHtml;
+                
+                // โหลดหน้า KPI เป็นหน้าแรกเสมอ
+                selectMenu('kpi', '📈 ผลการดำเนินการประจำปี 2569'); 
+            })
+            .catch(err => {
+                console.error("Error Fetching:", err);
+                document.getElementById("loading").innerHTML = `
+                <div class="bg-white p-6 rounded-2xl shadow-lg text-center">
+                    <p class="text-rose-500 font-bold mb-2">ไม่สามารถดึงข้อมูลได้</p>
+                    <p class="text-sm text-slate-500">โปรดตรวจสอบลิงก์ API หรือการเชื่อมต่ออินเทอร์เน็ต</p>
+                </div>`;
             });
-            document.getElementById("dynamicNavLinks").innerHTML = navHtml;
-            // โหลดหน้า KPI เป็นหน้าแรกทันที
-            selectMenu('kpi', '📈 ผลการดำเนินการประจำปี 2569'); 
-        }).getFileList();
     };
 
     function handleSearch() {
@@ -275,6 +332,7 @@
             activeEl.classList.add('bg-white/10', 'border-peaGold', 'text-white');
         }
 
+        // ซ่อนทุกหน้าก่อน
         document.getElementById("tableView").classList.add("hidden");
         document.getElementById("tableView").classList.remove("flex");
         document.getElementById("kpiView").classList.add("hidden");
@@ -323,23 +381,30 @@
         document.getElementById("loading").classList.remove("hidden"); 
         document.getElementById("loading").classList.add("flex");
 
-        google.script.run.withSuccessHandler(function(res) {
-            if(res && res.values && res.values.length > 0) {
-                kpiRawData = res; 
-                
-                let headHtml = "<tr>";
-                res.values[0].forEach((h, i) => {
-                    let bg = res.backgrounds[0][i]; 
-                    let fc = res.fontColors[0][i];
-                    headHtml += `<th class="px-6 py-4 font-bold border-x border-slate-300 text-center" style="background-color: ${bg}; color: ${fc};">${h}</th>`;
-                });
-                document.getElementById("kpiThead").innerHTML = headHtml + "</tr>";
+        fetch(API_URL + "?action=getKpiData&month=" + encodeURIComponent(month))
+            .then(res => res.json())
+            .then(res => {
+                if(res && res.values && res.values.length > 0) {
+                    kpiRawData = res; 
+                    
+                    let headHtml = "<tr>";
+                    res.values[0].forEach((h, i) => {
+                        let bg = res.backgrounds[0][i]; 
+                        let fc = res.fontColors[0][i];
+                        headHtml += `<th class="px-6 py-4 font-bold border-x border-slate-300 text-center" style="background-color: ${bg}; color: ${fc};">${h}</th>`;
+                    });
+                    document.getElementById("kpiThead").innerHTML = headHtml + "</tr>";
 
-                renderKpiTable(); 
-            }
-            document.getElementById("loading").classList.add("hidden"); 
-            document.getElementById("loading").classList.remove("flex");
-        }).getKpiData(month);
+                    renderKpiTable(); 
+                }
+                document.getElementById("loading").classList.add("hidden"); 
+                document.getElementById("loading").classList.remove("flex");
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById("loading").classList.add("hidden"); 
+                document.getElementById("loading").classList.remove("flex");
+            });
     }
 
     function renderKpiTable() {
@@ -393,33 +458,38 @@
         
         currentFileId = overrideFileId || currentFileId;
         
-        google.script.run.withSuccessHandler(function(res) {
-            allData = res.values; 
-            currentSheetName = res.currentSheetName;
-            
-            let tabHtml = "";
-            if (res.allSheets.length > 1) {
-                res.allSheets.slice(0, 2).forEach((name, idx) => {
-                    let activeClass = (idx === sheetIdx) ? 'bg-pea text-white shadow-md' : 'bg-white text-slate-600 border border-slate-300 hover:bg-slate-50';
-                    tabHtml += `<button class="px-5 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${activeClass}" onclick="loadFile(${idx}, '${currentFileId}')">${name}</button>`;
-                });
-            }
-            document.getElementById("tabArea").innerHTML = tabHtml;
-            
-            let headHtml = "<tr>";
-            if(allData.length > 0) { 
-                allData[0].forEach(h => {
-                    headHtml += `<th class="px-5 py-4 whitespace-nowrap">${h}</th>`;
-                }); 
-            }
-            document.getElementById("thead").innerHTML = headHtml + "</tr>";
-            
-            document.getElementById("search").value = ""; 
-            resetAndRender();
-            
-            document.getElementById("loading").classList.add("hidden"); 
-            document.getElementById("loading").classList.remove("flex");
-        }).getSheetData(currentFileId, sheetIdx);
+        fetch(`${API_URL}?action=getSheetData&fileId=${currentFileId}&sheetIndex=${sheetIdx}`)
+            .then(res => res.json())
+            .then(res => {
+                allData = res.values; 
+                currentSheetName = res.currentSheetName;
+                
+                let tabHtml = "";
+                if (res.allSheets.length > 1) {
+                    res.allSheets.slice(0, 2).forEach((name, idx) => {
+                        let activeClass = (idx === sheetIdx) ? 'bg-pea text-white shadow-md' : 'bg-white text-slate-600 border border-slate-300 hover:bg-slate-50';
+                        tabHtml += `<button class="px-5 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${activeClass}" onclick="loadFile(${idx}, '${currentFileId}')">${name}</button>`;
+                    });
+                }
+                document.getElementById("tabArea").innerHTML = tabHtml;
+                
+                let headHtml = "<tr>";
+                if(allData.length > 0) { 
+                    allData[0].forEach(h => {
+                        headHtml += `<th class="px-5 py-4 whitespace-nowrap">${h}</th>`;
+                    }); 
+                }
+                document.getElementById("thead").innerHTML = headHtml + "</tr>";
+                
+                document.getElementById("search").value = ""; 
+                resetAndRender();
+                
+                document.getElementById("loading").classList.add("hidden"); 
+                document.getElementById("loading").classList.remove("flex");
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     function openSummaryModal() {
