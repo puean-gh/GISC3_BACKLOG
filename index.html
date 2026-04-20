@@ -37,6 +37,7 @@
     </script>
     
     <style>
+        /* จัดการ Scrollbar ให้สวยงาม */
         .custom-scrollbar::-webkit-scrollbar { 
             height: 8px; 
             width: 8px; 
@@ -51,11 +52,15 @@
         .custom-scrollbar::-webkit-scrollbar-track { 
             background: transparent; 
         }
+        
+        /* สถานะปุ่มเมนูที่ถูกเลือก */
         .nav-item.active { 
             background-color: rgba(255, 255, 255, 0.1); 
             border-left-color: #f59e0b; 
             color: white; 
         }
+        
+        /* บังคับ Hover หน้าตาราง KPI เป็นโทนม่วงอ่อนของ PEA */
         .kpi-row:hover td {
             background-color: #fce7f3 !important; 
             color: #74045f !important;
@@ -76,7 +81,7 @@
             </svg>
         </div>
     </div>
-    <div class="font-bold text-pea text-lg tracking-wide">กำลังดึงข้อมูลจากระบบ .....</div>
+    <div class="font-bold text-pea text-lg tracking-wide">กำลังประมวลผลข้อมูล .....</div>
 </div>
 
 <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[3000] hidden items-center justify-center p-4 sm:p-6 transition-opacity duration-300 opacity-0">
@@ -122,14 +127,24 @@
                 </div>
             </div>
         </div>
+        
         <nav class="flex-1 overflow-y-auto py-4 custom-scrollbar flex flex-col gap-1 px-3 min-w-[256px]">
             <div class="px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider mb-1">เมนูหลัก</div>
-            <button id="nav-kpi" onclick="selectMenu('kpi', '📈 ผลการดำเนินการประจำปี 2569')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-peaGold bg-white/10 text-white shadow-sm">
+            
+            <button id="nav-dashboard" onclick="selectMenu('dashboard', '📊 Dashboard แสดงค่า KPI')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-peaGold bg-white/10 text-white shadow-sm">
+                <svg class="w-5 h-5 opacity-90 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span class="truncate">Dashboard แสดงค่า KPI</span>
+            </button>
+            
+            <button id="nav-kpi" onclick="selectMenu('kpi', '📈 ผลการดำเนินการประจำปี 2569')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-transparent text-white/70 hover:bg-white/5">
                 <svg class="w-5 h-5 opacity-90 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
-                <span class="truncate">ผลการดำเนินการปี 69</span>
+                <span class="truncate">ตารางสรุปผลปี 69</span>
             </button>
+            
             <div class="px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider mt-4 mb-1">ระบบงานต่างๆ</div>
             <div id="dynamicNavLinks" class="flex flex-col gap-1">
                 <div class="px-4 py-2 text-sm text-white/40 italic">กำลังเชื่อมต่อ API...</div>
@@ -149,12 +164,13 @@
                     </svg>
                 </button>
                 <div class="h-6 w-px bg-slate-200 mx-1 hidden md:block"></div>
-                <h2 id="currentPageTitle" class="text-xl font-bold text-slate-800 m-0 tracking-wide drop-shadow-sm truncate">📈 ผลการดำเนินการประจำปี 2569</h2>
+                <h2 id="currentPageTitle" class="text-xl font-bold text-slate-800 m-0 tracking-wide drop-shadow-sm truncate">📊 Dashboard แสดงค่า KPI</h2>
             </div>
             
             <div class="flex items-center gap-4" id="topActionArea">
+                
                 <div id="kpiDropdownContainer" class="relative">
-                    <select id="kpiMonthSelect" onchange="changeKpiMonth()" class="pl-4 pr-10 py-2.5 bg-pea/5 border border-pea/20 text-pea font-bold rounded-xl focus:outline-none focus:ring-2 focus:ring-pea/40 shadow-sm appearance-none cursor-pointer">
+                    <select id="kpiMonthSelect" onchange="handleDropdownChange()" class="pl-4 pr-10 py-2.5 bg-pea/5 border border-pea/20 text-pea font-bold rounded-xl focus:outline-none focus:ring-2 focus:ring-pea/40 shadow-sm appearance-none cursor-pointer">
                         <option value="มกราคม" selected>มกราคม</option>
                         <option value="กุมภาพันธ์">กุมภาพันธ์</option>
                         <option value="มีนาคม">มีนาคม</option>
@@ -187,7 +203,9 @@
                     </div>
                     <input type="text" id="search" onkeyup="handleSearch()" placeholder="ค้นหาข้อมูล..." class="w-full pl-10 pr-4 py-2 bg-slate-100 border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-pea/20 focus:bg-white transition-all text-slate-700 text-sm">
                 </div>
+                
                 <div class="h-6 w-px bg-slate-200 hidden md:block" id="actionDivider"></div>
+                
                 <button id="summaryBtn" onclick="openSummaryModal()" class="hidden group items-center gap-2 bg-peaGold hover:bg-yellow-500 text-peaDark font-bold py-2 px-4 rounded-xl shadow-sm hover:shadow-md transition-all text-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
@@ -195,12 +213,14 @@
                     </svg>
                     กราฟวิเคราะห์
                 </button>
-                <button id="exportBtn" onclick="exportToExcel()" class="flex group items-center gap-2 bg-[#107c41] hover:bg-[#0c5c30] text-white font-medium py-2 px-4 rounded-xl shadow-sm hover:shadow-md transition-all text-sm">
+                
+                <button id="exportBtn" onclick="exportToExcel()" class="hidden group items-center gap-2 bg-[#107c41] hover:bg-[#0c5c30] text-white font-medium py-2 px-4 rounded-xl shadow-sm hover:shadow-md transition-all text-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                     </svg>
                     Excel
                 </button>
+                
                 <select id="rowSelect" onchange="updateRowsPerPage()" class="hidden pl-4 pr-8 py-2 bg-white border border-slate-200 rounded-xl text-slate-600 font-medium focus:outline-none cursor-pointer hover:bg-slate-50 appearance-none shadow-sm text-sm">
                     <option value="10">10 แถว</option>
                     <option value="20" selected>20 แถว</option>
@@ -211,6 +231,158 @@
         </header>
 
         <main class="flex-1 w-full overflow-hidden p-4 md:p-6 flex flex-col" id="mainArea">
+            
+            <div id="dashboardSummaryView" class="flex flex-col gap-6 w-full h-full flex-1 overflow-y-auto custom-scrollbar pr-2 pb-10">
+                
+                <div class="bg-white rounded-[2rem] shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-shrink-0">
+                    <div class="flex flex-col gap-2 border-b pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2.5 h-8 bg-peaGold rounded-full shadow-sm"></div>
+                            <h3 class="text-xl md:text-2xl font-black text-peaDark leading-tight">ผลการดำเนินการ ร้อยละความถูกต้อง และความครบถ้วนของข้อมูลมิเตอร์ในระบบ GIS</h3>
+                        </div>
+                        <p class="text-slate-500 font-medium pl-5 md:pl-6 text-sm">ข้อมูลรายหน่วยการไฟฟ้า เรียงลำดับจากร้อยละความถูกต้องน้อยไปมาก</p>
+                    </div>
+                    
+                    <div class="w-full h-[500px] overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4">
+                        <div id="chartWrapper1" class="relative w-full"><canvas id="dashboardChart1"></canvas></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 flex-shrink-0">
+                        <div class="bg-emerald-50 border border-emerald-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 99</div>
+                            <div class="text-2xl md:text-3xl font-black text-emerald-700">5 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 98</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">4 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 97</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">3 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 96</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">2 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 95</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">1 คะแนน</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2rem] shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-shrink-0">
+                    <div class="flex flex-col gap-2 border-b pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2.5 h-8 bg-peaGold rounded-full shadow-sm"></div>
+                            <h3 class="text-xl md:text-2xl font-black text-peaDark leading-tight">ผลการดำเนินการ ร้อยละความถูกต้องของข้อมูลหม้อแปลงในฐานข้อมูลระบบ GIS</h3>
+                        </div>
+                        <p class="text-slate-500 font-medium pl-5 md:pl-6 text-sm">ข้อมูลรายหน่วยการไฟฟ้า เรียงลำดับจากร้อยละความถูกต้องน้อยไปมาก</p>
+                    </div>
+                    
+                    <div class="w-full h-[500px] overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4">
+                        <div id="chartWrapper2" class="relative w-full"><canvas id="dashboardChart2"></canvas></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 flex-shrink-0">
+                        <div class="bg-emerald-50 border border-emerald-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 98</div>
+                            <div class="text-2xl md:text-3xl font-black text-emerald-700">5 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 96</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">4 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 94</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">3 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 92</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">2 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 90</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">1 คะแนน</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2rem] shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-shrink-0">
+                    <div class="flex flex-col gap-2 border-b pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2.5 h-8 bg-peaGold rounded-full shadow-sm"></div>
+                            <h3 class="text-xl md:text-2xl font-black text-peaDark leading-tight">ผลการดำเนินการ ร้อยละความถูกต้องเชิงคุณภาพของข้อมูลระบบจำหน่ายแรงต่ำในระบบ GIS</h3>
+                        </div>
+                        <p class="text-slate-500 font-medium pl-5 md:pl-6 text-sm">ข้อมูลรายหน่วยการไฟฟ้า เรียงลำดับจากร้อยละความถูกต้องน้อยไปมาก</p>
+                    </div>
+                    
+                    <div class="w-full h-[500px] overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4">
+                        <div id="chartWrapper3" class="relative w-full"><canvas id="dashboardChart3"></canvas></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 flex-shrink-0">
+                        <div class="bg-emerald-50 border border-emerald-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 98</div>
+                            <div class="text-2xl md:text-3xl font-black text-emerald-700">5 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 96</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">4 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 94</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">3 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 92</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">2 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 90</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">1 คะแนน</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2rem] shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-shrink-0">
+                    <div class="flex flex-col gap-2 border-b pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2.5 h-8 bg-peaGold rounded-full shadow-sm"></div>
+                            <h3 class="text-xl md:text-2xl font-black text-peaDark leading-tight">ผลการดำเนินการ ร้อยละความถูกต้องของการนำเข้าข้อมูลงานก่อสร้าง SAP-PS สู่ระบบ GIS</h3>
+                        </div>
+                        <p class="text-slate-500 font-medium pl-5 md:pl-6 text-sm">ข้อมูลรายหน่วยการไฟฟ้า เรียงลำดับจากร้อยละความถูกต้องน้อยไปมาก</p>
+                    </div>
+                    
+                    <div class="w-full h-[500px] overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4">
+                        <div id="chartWrapper4" class="relative w-full"><canvas id="dashboardChart4"></canvas></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 flex-shrink-0">
+                        <div class="bg-emerald-50 border border-emerald-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 90</div>
+                            <div class="text-2xl md:text-3xl font-black text-emerald-700">5 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 87</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">4 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 84</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">3 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 81</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">2 คะแนน</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-3 md:p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-[10px] md:text-xs font-bold text-rose-600 uppercase tracking-widest mb-1">เกณฑ์ร้อยละ 78</div>
+                            <div class="text-2xl md:text-3xl font-black text-rose-700">1 คะแนน</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
             <div id="tableView" class="hidden flex-col gap-4 w-full h-full flex-1 min-h-0">
                 <div id="tabArea" class="flex flex-wrap gap-2 flex-shrink-0"></div>
@@ -232,7 +404,7 @@
                 </div>
             </div>
 
-            <div id="kpiView" class="flex flex-col gap-4 w-full h-full flex-1 min-h-0">
+            <div id="kpiView" class="hidden flex-col gap-4 w-full h-full flex-1 min-h-0">
                 <div class="bg-white rounded-xl shadow-soft border border-slate-200 flex flex-col flex-1 min-h-0 overflow-hidden w-full">
                     <div class="flex-1 custom-scrollbar overflow-auto">
                         <table class="w-full text-sm text-left border-collapse whitespace-nowrap">
@@ -248,10 +420,38 @@
 </div>
 
 <script>
-    // =========================================================
-    // API URL ของ Google Apps Script (สำคัญมาก: ห้ามลบ)
-    // =========================================================
+    // ตัวแปรเก็บ URL ของ Google Apps Script (อย่าลืมเช็คให้ตรงกับ Deploy ล่าสุด)
     const API_URL = "https://script.google.com/macros/s/AKfycbxQmhndxsR1qZjfy9p_vqFKz0eRoeXV5XpLb5ZF2X0TzmHOe89-qtHxgPdi2gfE7Is/exec";
+
+    // Plugin เสริมของ Chart.js เพื่อแสดงตัวเลขร้อยละและคะแนนบนแท่งกราฟ (ชิดซ้าย, ตัวหนา, สีขาว)
+    const textOnBarPlugin = {
+        id: 'textOnBarPlugin',
+        afterDatasetsDraw(chart, args, options) {
+            const { ctx, data, chartArea: { left }, scales: { x, y } } = chart;
+            
+            // เช็คความปลอดภัย: ป้องกัน Error ถ้ากราฟนั้นไม่มีข้อมูล scoreData
+            if (!data.datasets[0] || !data.datasets[0].scoreData) return;
+
+            ctx.save();
+            ctx.font = 'bold 13px Sarabun';
+            ctx.fillStyle = 'white';
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'left';
+
+            data.datasets[0].data.forEach((value, index) => {
+                const meta = chart.getDatasetMeta(0).data[index];
+                const score = data.datasets[0].scoreData[index]; 
+                
+                const textX = left + 10; // ห่างจากขอบซ้ายของแท่ง 10px
+                const textY = meta.y;
+                
+                ctx.fillText(`ร้อยละ: ${value}%   |   คะแนน: ${score}`, textX, textY);
+            });
+            ctx.restore();
+        }
+    };
+
+    Chart.register(textOnBarPlugin);
 
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
@@ -270,11 +470,20 @@
     let rowsPerPage = 20;
     let currentFileId = "";
     let currentSheetName = "";
-    let currentViewMode = "kpi"; 
+    let currentViewMode = "dashboard"; 
+    
     let myChartInstance = null; 
+    let myDashboardChart1 = null; 
+    let myDashboardChart2 = null; 
+    let myDashboardChart3 = null; 
+    let myDashboardChart4 = null; 
+    
     let kpiRawData = null; 
 
     window.onload = function() {
+        document.getElementById("loading").classList.remove("hidden");
+        document.getElementById("loading").classList.add("flex");
+
         fetch(API_URL + "?action=getFileList")
             .then(res => res.json())
             .then(files => {
@@ -292,9 +501,7 @@
                 });
                 
                 document.getElementById("dynamicNavLinks").innerHTML = navHtml;
-                
-                // โหลดหน้า KPI เป็นหน้าแรกเสมอ
-                selectMenu('kpi', '📈 ผลการดำเนินการประจำปี 2569'); 
+                selectMenu('dashboard', '📊 Dashboard แสดงค่า KPI'); 
             })
             .catch(err => {
                 console.error("Error Fetching:", err);
@@ -305,6 +512,14 @@
                 </div>`;
             });
     };
+
+    function handleDropdownChange() {
+        if (currentViewMode === "dashboard") {
+            loadDashboardData();
+        } else if (currentViewMode === "kpi") {
+            changeKpiMonth();
+        }
+    }
 
     function handleSearch() {
         if (currentViewMode === "kpi") {
@@ -325,15 +540,18 @@
         });
         
         let activeEl = document.getElementById('nav-' + value);
-        
-        if (activeEl) {
+        if(activeEl) {
             activeEl.classList.remove('text-white/70', 'border-transparent');
             activeEl.classList.add('bg-white/10', 'border-peaGold', 'text-white');
         }
 
-        // ซ่อนหน้าทั้งหมดก่อน
+        // ซ่อนทุกหน้าก่อนเปิด
+        document.getElementById("dashboardSummaryView").classList.add("hidden");
+        document.getElementById("dashboardSummaryView").classList.remove("flex");
+        
         document.getElementById("tableView").classList.add("hidden");
         document.getElementById("tableView").classList.remove("flex");
+        
         document.getElementById("kpiView").classList.add("hidden");
         document.getElementById("kpiView").classList.remove("flex");
 
@@ -344,9 +562,16 @@
         document.getElementById("actionDivider").classList.add("hidden");
         document.getElementById("kpiDropdownContainer").classList.add("hidden");
 
-        if (value === "kpi") {
-            currentViewMode = "kpi";
+        if (value === "dashboard") {
+            currentViewMode = "dashboard";
+            document.getElementById("dashboardSummaryView").classList.remove("hidden");
+            document.getElementById("dashboardSummaryView").classList.add("flex");
+            document.getElementById("kpiDropdownContainer").classList.remove("hidden");
             
+            loadDashboardData();
+            
+        } else if (value === "kpi") {
+            currentViewMode = "kpi";
             document.getElementById("kpiView").classList.remove("hidden");
             document.getElementById("kpiView").classList.add("flex");
             
@@ -359,7 +584,6 @@
             
         } else {
             currentViewMode = "table";
-            
             document.getElementById("tableView").classList.remove("hidden");
             document.getElementById("tableView").classList.add("flex");
             
@@ -377,9 +601,101 @@
         }
     }
 
+    function loadDashboardData() {
+        let month = document.getElementById("kpiMonthSelect").value;
+        document.getElementById("loading").classList.remove("hidden"); 
+        document.getElementById("loading").classList.add("flex");
+
+        fetch(API_URL + "?action=getDashboardKpiData&month=" + encodeURIComponent(month))
+            .then(res => res.json())
+            .then(data => {
+                renderDashboardCharts(data);
+                document.getElementById("loading").classList.add("hidden"); 
+                document.getElementById("loading").classList.remove("flex");
+            })
+            .catch(err => {
+                console.error("Error fetching dashboard data:", err);
+                document.getElementById("loading").classList.add("hidden"); 
+                document.getElementById("loading").classList.remove("flex");
+            });
+    }
+
+    function renderDashboardCharts(data) {
+        if (!data || !data.meterData || !data.transformerData || !data.lowVoltageData || !data.sapData) return;
+        
+        // ฟังก์ชันสร้างกราฟเพื่อลดความซ้ำซ้อนของโค้ด
+        let generateChart = (chartInstance, canvasId, wrapperId, dataset) => {
+            let labels = []; 
+            let values = []; 
+            let scores = [];
+            
+            dataset.forEach(item => { 
+                labels.push(item.label); 
+                values.push(item.value); 
+                scores.push(item.score); 
+            });
+            
+            let ctx = document.getElementById(canvasId).getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+            
+            // สีของแท่งกราฟ: 5 คะแนน = สีเขียว, นอกนั้น (4 ลงมา) = สีแดง
+            let colors = scores.map(score => { 
+                return (parseFloat(score) >= 5) ? '#059669' : '#e11d48'; 
+            });
+            
+            // ปรับความสูงของ Scrollbar กราฟ (40px ต่อ 1 สาขา)
+            document.getElementById(wrapperId).style.height = Math.max(500, labels.length * 40) + 'px';
+
+            return new Chart(ctx, {
+                type: 'bar',
+                data: { 
+                    labels: labels, 
+                    datasets: [{ 
+                        label: 'ร้อยละความถูกต้อง', 
+                        data: values, 
+                        scoreData: scores, 
+                        backgroundColor: colors, 
+                        borderRadius: 4, 
+                        maxBarThickness: 25 
+                    }] 
+                },
+                options: {
+                    indexAxis: 'y', 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false }, 
+                        textOnBarPlugin: true, // เปิดการทำงานของปลั๊กอินแสดงตัวเลข
+                        tooltip: {
+                            titleFont: { family: 'Sarabun', size: 14 },
+                            bodyFont: { family: 'Sarabun', size: 14, weight: 'bold' },
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    let idx = context.dataIndex;
+                                    return `ร้อยละ: ${values[idx]}%  |  คะแนน KPI: ${scores[idx]}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: { 
+                        x: { max: 100, grid: { borderDash: [5, 5], color: '#e2e8f0' } }, 
+                        y: { grid: { display: false }, ticks: { font: { family: 'Sarabun', size: 13, weight: 'bold' }, color: '#334155', autoSkip: false } } 
+                    }
+                }
+            });
+        };
+
+        // สั่งวาดกราฟทั้ง 4 ตัว
+        myDashboardChart1 = generateChart(myDashboardChart1, 'dashboardChart1', 'chartWrapper1', data.meterData);
+        myDashboardChart2 = generateChart(myDashboardChart2, 'dashboardChart2', 'chartWrapper2', data.transformerData);
+        myDashboardChart3 = generateChart(myDashboardChart3, 'dashboardChart3', 'chartWrapper3', data.lowVoltageData);
+        myDashboardChart4 = generateChart(myDashboardChart4, 'dashboardChart4', 'chartWrapper4', data.sapData);
+    }
+
     function changeKpiMonth() {
         let month = document.getElementById("kpiMonthSelect").value;
-        
         document.getElementById("loading").classList.remove("hidden"); 
         document.getElementById("loading").classList.add("flex");
 
@@ -564,11 +880,9 @@
             
             filteredData.forEach(row => {
                 let officeName = row[targetColIndex];
-                
                 if (officeName === undefined || officeName === null) {
                     officeName = ""; 
                 }
-                
                 officeName = String(officeName).trim();
                 
                 if (currentFileId === "1PwQbHXBAQlpdWlRS0TiNoIMeDblaDBZd_ZhnqiOxDYk") { 
@@ -728,7 +1042,7 @@
     function exportToExcel() {
         let wb = XLSX.utils.book_new();
         
-        if (currentViewMode === "kpi") {
+        if (currentViewMode === "kpi" || currentViewMode === "dashboard") {
             if (!kpiRawData) return;
             let ws = XLSX.utils.aoa_to_sheet(kpiRawData.values);
             XLSX.utils.book_append_sheet(wb, ws, "KPI_Data");
