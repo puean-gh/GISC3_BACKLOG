@@ -113,6 +113,7 @@
 </div>
 
 <div class="flex h-screen w-full overflow-hidden bg-slate-50">
+    
     <aside id="sidebar" class="w-64 bg-peaDark flex-shrink-0 flex flex-col shadow-2xl z-20 transition-all duration-300 overflow-hidden">
         <div class="h-[72px] flex items-center justify-center px-6 bg-pea shadow-md z-10 flex-shrink-0">
             <div class="flex items-center gap-3 w-full">
@@ -232,10 +233,17 @@
 
         <main class="flex-1 w-full overflow-hidden p-4 md:p-6 flex flex-col" id="mainArea">
             
-            <div id="dashboardSummaryView" class="flex flex-col gap-6 w-full h-full flex-1 overflow-y-auto custom-scrollbar pr-2 pb-10">
+            <div id="dashboardSummaryView" class="flex flex-col gap-4 w-full h-full flex-1 overflow-hidden">
                 
-                <div class="bg-white rounded-[2rem] shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-shrink-0">
-                    <div class="flex flex-col gap-2 border-b pb-4">
+                <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-4 flex-shrink-0">
+                    <button id="btn-dash-1" onclick="switchDashboardTab(1)" class="px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 bg-pea text-white shadow-md">🎛️ ข้อมูลมิเตอร์</button>
+                    <button id="btn-dash-2" onclick="switchDashboardTab(2)" class="px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-slate-600 border border-slate-300 hover:bg-slate-50">⚡ ข้อมูลหม้อแปลง</button>
+                    <button id="btn-dash-3" onclick="switchDashboardTab(3)" class="px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-slate-600 border border-slate-300 hover:bg-slate-50">🔌 ข้อมูลระบบแรงต่ำ</button>
+                    <button id="btn-dash-4" onclick="switchDashboardTab(4)" class="px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 bg-white text-slate-600 border border-slate-300 hover:bg-slate-50">🏗️ งานก่อสร้าง SAP-PS</button>
+                </div>
+
+                <div id="dash-content-1" class="bg-white rounded-2xl shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-1 min-h-0">
+                    <div class="flex flex-col gap-2 border-b pb-4 flex-shrink-0">
                         <div class="flex items-center gap-3">
                             <div class="w-2.5 h-8 bg-peaGold rounded-full shadow-sm"></div>
                             <h3 class="text-xl md:text-2xl font-black text-peaDark leading-tight">ผลการดำเนินการ ร้อยละความถูกต้อง และความครบถ้วนของข้อมูลมิเตอร์ในระบบ GIS</h3>
@@ -243,7 +251,7 @@
                         <p class="text-slate-500 font-medium pl-5 md:pl-6 text-sm">ข้อมูลรายหน่วยการไฟฟ้า เรียงลำดับจากร้อยละความถูกต้องน้อยไปมาก</p>
                     </div>
                     
-                    <div class="w-full h-[500px] overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4">
+                    <div class="w-full flex-1 overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4 min-h-[300px]">
                         <div id="chartWrapper1" class="relative w-full"><canvas id="dashboardChart1"></canvas></div>
                     </div>
                     
@@ -271,8 +279,8 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-[2rem] shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-shrink-0">
-                    <div class="flex flex-col gap-2 border-b pb-4">
+                <div id="dash-content-2" class="hidden bg-white rounded-2xl shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-1 min-h-0">
+                    <div class="flex flex-col gap-2 border-b pb-4 flex-shrink-0">
                         <div class="flex items-center gap-3">
                             <div class="w-2.5 h-8 bg-peaGold rounded-full shadow-sm"></div>
                             <h3 class="text-xl md:text-2xl font-black text-peaDark leading-tight">ผลการดำเนินการ ร้อยละความถูกต้องของข้อมูลหม้อแปลงในฐานข้อมูลระบบ GIS</h3>
@@ -280,7 +288,7 @@
                         <p class="text-slate-500 font-medium pl-5 md:pl-6 text-sm">ข้อมูลรายหน่วยการไฟฟ้า เรียงลำดับจากร้อยละความถูกต้องน้อยไปมาก</p>
                     </div>
                     
-                    <div class="w-full h-[500px] overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4">
+                    <div class="w-full flex-1 overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4 min-h-[300px]">
                         <div id="chartWrapper2" class="relative w-full"><canvas id="dashboardChart2"></canvas></div>
                     </div>
                     
@@ -308,8 +316,8 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-[2rem] shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-shrink-0">
-                    <div class="flex flex-col gap-2 border-b pb-4">
+                <div id="dash-content-3" class="hidden bg-white rounded-2xl shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-1 min-h-0">
+                    <div class="flex flex-col gap-2 border-b pb-4 flex-shrink-0">
                         <div class="flex items-center gap-3">
                             <div class="w-2.5 h-8 bg-peaGold rounded-full shadow-sm"></div>
                             <h3 class="text-xl md:text-2xl font-black text-peaDark leading-tight">ผลการดำเนินการ ร้อยละความถูกต้องเชิงคุณภาพของข้อมูลระบบจำหน่ายแรงต่ำในระบบ GIS</h3>
@@ -317,7 +325,7 @@
                         <p class="text-slate-500 font-medium pl-5 md:pl-6 text-sm">ข้อมูลรายหน่วยการไฟฟ้า เรียงลำดับจากร้อยละความถูกต้องน้อยไปมาก</p>
                     </div>
                     
-                    <div class="w-full h-[500px] overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4">
+                    <div class="w-full flex-1 overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4 min-h-[300px]">
                         <div id="chartWrapper3" class="relative w-full"><canvas id="dashboardChart3"></canvas></div>
                     </div>
                     
@@ -345,8 +353,8 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-[2rem] shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-shrink-0">
-                    <div class="flex flex-col gap-2 border-b pb-4">
+                <div id="dash-content-4" class="hidden bg-white rounded-2xl shadow-soft border p-6 md:p-8 flex flex-col gap-4 md:gap-6 w-full flex-1 min-h-0">
+                    <div class="flex flex-col gap-2 border-b pb-4 flex-shrink-0">
                         <div class="flex items-center gap-3">
                             <div class="w-2.5 h-8 bg-peaGold rounded-full shadow-sm"></div>
                             <h3 class="text-xl md:text-2xl font-black text-peaDark leading-tight">ผลการดำเนินการ ร้อยละความถูกต้องของการนำเข้าข้อมูลงานก่อสร้าง SAP-PS สู่ระบบ GIS</h3>
@@ -354,7 +362,7 @@
                         <p class="text-slate-500 font-medium pl-5 md:pl-6 text-sm">ข้อมูลรายหน่วยการไฟฟ้า เรียงลำดับจากร้อยละความถูกต้องน้อยไปมาก</p>
                     </div>
                     
-                    <div class="w-full h-[500px] overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4">
+                    <div class="w-full flex-1 overflow-y-auto custom-scrollbar border rounded-xl bg-slate-50/30 p-4 min-h-[300px]">
                         <div id="chartWrapper4" class="relative w-full"><canvas id="dashboardChart4"></canvas></div>
                     </div>
                     
@@ -420,17 +428,24 @@
 </div>
 
 <script>
-    // ตัวแปรเก็บ URL ของ Google Apps Script (อย่าลืมเช็คให้ตรงกับ Deploy ล่าสุด)
+    // URL สำหรับดึงข้อมูลจาก Google Apps Script (สำคัญมาก ห้ามลบ)
     const API_URL = "https://script.google.com/macros/s/AKfycbxQmhndxsR1qZjfy9p_vqFKz0eRoeXV5XpLb5ZF2X0TzmHOe89-qtHxgPdi2gfE7Is/exec";
 
-    // Plugin เสริมของ Chart.js เพื่อแสดงตัวเลขร้อยละและคะแนนบนแท่งกราฟ (ชิดซ้าย, ตัวหนา, สีขาว)
+    // ---------------------------------------------------------------------------
+    // PLUGIN สำหรับกราฟ Dashboard (แสดงข้อความบนแท่งกราฟ)
+    // แก้วิธีการเขียนฟังก์ชันเพื่อป้องกัน Error ไม่ให้กวนหน้ากราฟ Backlog
+    // ---------------------------------------------------------------------------
     const textOnBarPlugin = {
         id: 'textOnBarPlugin',
-        afterDatasetsDraw(chart, args, options) {
-            const { ctx, data, chartArea: { left }, scales: { x, y } } = chart;
+        afterDatasetsDraw: function(chart, args, options) {
+            const ctx = chart.ctx;
+            const data = chart.data;
+            const chartArea = chart.chartArea;
             
             // เช็คความปลอดภัย: ป้องกัน Error ถ้ากราฟนั้นไม่มีข้อมูล scoreData
-            if (!data.datasets[0] || !data.datasets[0].scoreData) return;
+            if (!data.datasets || !data.datasets[0] || !data.datasets[0].scoreData) {
+                return;
+            }
 
             ctx.save();
             ctx.font = 'bold 13px Sarabun';
@@ -438,20 +453,19 @@
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'left';
 
-            data.datasets[0].data.forEach((value, index) => {
-                const meta = chart.getDatasetMeta(0).data[index];
-                const score = data.datasets[0].scoreData[index]; 
+            for (let i = 0; i < data.datasets[0].data.length; i++) {
+                const value = data.datasets[0].data[i];
+                const meta = chart.getDatasetMeta(0).data[i];
+                const score = data.datasets[0].scoreData[i]; 
                 
-                const textX = left + 10; // ห่างจากขอบซ้ายของแท่ง 10px
+                const textX = chartArea.left + 10; // ห่างจากขอบซ้าย 10px
                 const textY = meta.y;
                 
                 ctx.fillText(`ร้อยละ: ${value}%   |   คะแนน: ${score}`, textX, textY);
-            });
+            }
             ctx.restore();
         }
     };
-
-    Chart.register(textOnBarPlugin);
 
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
@@ -464,6 +478,25 @@
         }
     }
 
+    // ฟังก์ชันสลับ Tab ภายในหน้า Dashboard
+    function switchDashboardTab(tabIndex) {
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById('dash-content-' + i).classList.add('hidden');
+            document.getElementById('dash-content-' + i).classList.remove('flex');
+            
+            let btn = document.getElementById('btn-dash-' + i);
+            btn.classList.remove('bg-pea', 'text-white', 'shadow-md');
+            btn.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-300', 'hover:bg-slate-50');
+        }
+        
+        document.getElementById('dash-content-' + tabIndex).classList.remove('hidden');
+        document.getElementById('dash-content-' + tabIndex).classList.add('flex');
+        
+        let activeBtn = document.getElementById('btn-dash-' + tabIndex);
+        activeBtn.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-300', 'hover:bg-slate-50');
+        activeBtn.classList.add('bg-pea', 'text-white', 'shadow-md');
+    }
+
     let allData = [];
     let filteredData = [];
     let currentPage = 1;
@@ -472,7 +505,7 @@
     let currentSheetName = "";
     let currentViewMode = "dashboard"; 
     
-    let myChartInstance = null; 
+    let myChartInstance = null; // ตัวนี้ใช้กับ Modal ของหน้า Backlog (ปลอดภัย 100%)
     let myDashboardChart1 = null; 
     let myDashboardChart2 = null; 
     let myDashboardChart3 = null; 
@@ -484,12 +517,14 @@
         document.getElementById("loading").classList.remove("hidden");
         document.getElementById("loading").classList.add("flex");
 
+        // ใช้ fetch () ดึงข้อมูลจาก API
         fetch(API_URL + "?action=getFileList")
-            .then(res => res.json())
-            .then(files => {
+            .then(function(res) { return res.json(); })
+            .then(function(files) {
                 let navHtml = '';
                 
-                files.forEach(f => {
+                for (let i = 0; i < files.length; i++) {
+                    let f = files[i];
                     navHtml += `
                     <button id="nav-${f.id}" onclick="selectMenu('${f.id}', '${f.name}')" 
                         class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-medium border-l-4 border-transparent text-white/70 hover:bg-white/5 hover:text-white">
@@ -498,12 +533,12 @@
                         </svg>
                         <span class="truncate">${f.name}</span>
                     </button>`;
-                });
+                }
                 
                 document.getElementById("dynamicNavLinks").innerHTML = navHtml;
                 selectMenu('dashboard', '📊 Dashboard แสดงค่า KPI'); 
             })
-            .catch(err => {
+            .catch(function(err) {
                 console.error("Error Fetching:", err);
                 document.getElementById("loading").innerHTML = `
                 <div class="bg-white p-6 rounded-2xl shadow-lg text-center">
@@ -534,10 +569,11 @@
         currentFileId = value; 
         document.getElementById("search").value = ""; 
 
-        document.querySelectorAll('.nav-item').forEach(el => {
-            el.classList.remove('bg-white/10', 'border-peaGold', 'text-white');
-            el.classList.add('text-white/70', 'border-transparent');
-        });
+        let navItems = document.querySelectorAll('.nav-item');
+        for (let i = 0; i < navItems.length; i++) {
+            navItems[i].classList.remove('bg-white/10', 'border-peaGold', 'text-white');
+            navItems[i].classList.add('text-white/70', 'border-transparent');
+        }
         
         let activeEl = document.getElementById('nav-' + value);
         if(activeEl) {
@@ -568,6 +604,8 @@
             document.getElementById("dashboardSummaryView").classList.add("flex");
             document.getElementById("kpiDropdownContainer").classList.remove("hidden");
             
+            // รีเซ็ตให้กลับมา Tab 1 เสมอ
+            switchDashboardTab(1);
             loadDashboardData();
             
         } else if (value === "kpi") {
@@ -607,13 +645,13 @@
         document.getElementById("loading").classList.add("flex");
 
         fetch(API_URL + "?action=getDashboardKpiData&month=" + encodeURIComponent(month))
-            .then(res => res.json())
-            .then(data => {
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
                 renderDashboardCharts(data);
                 document.getElementById("loading").classList.add("hidden"); 
                 document.getElementById("loading").classList.remove("flex");
             })
-            .catch(err => {
+            .catch(function(err) {
                 console.error("Error fetching dashboard data:", err);
                 document.getElementById("loading").classList.add("hidden"); 
                 document.getElementById("loading").classList.remove("flex");
@@ -623,27 +661,32 @@
     function renderDashboardCharts(data) {
         if (!data || !data.meterData || !data.transformerData || !data.lowVoltageData || !data.sapData) return;
         
-        // ฟังก์ชันสร้างกราฟเพื่อลดความซ้ำซ้อนของโค้ด
-        let generateChart = (chartInstance, canvasId, wrapperId, dataset) => {
+        let generateChart = function(chartInstance, canvasId, wrapperId, dataset) {
             let labels = []; 
             let values = []; 
             let scores = [];
             
-            dataset.forEach(item => { 
-                labels.push(item.label); 
-                values.push(item.value); 
-                scores.push(item.score); 
-            });
+            for (let i = 0; i < dataset.length; i++) {
+                labels.push(dataset[i].label); 
+                values.push(dataset[i].value); 
+                scores.push(dataset[i].score); 
+            }
             
             let ctx = document.getElementById(canvasId).getContext('2d');
-            if (chartInstance) chartInstance.destroy();
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
             
-            // สีของแท่งกราฟ: 5 คะแนน = สีเขียว, นอกนั้น (4 ลงมา) = สีแดง
-            let colors = scores.map(score => { 
-                return (parseFloat(score) >= 5) ? '#059669' : '#e11d48'; 
-            });
+            let colors = [];
+            for (let j = 0; j < scores.length; j++) {
+                // 5 คะแนน = เขียว, นอกนั้น (4 ลงมา) = แดง
+                if (parseFloat(scores[j]) >= 5) {
+                    colors.push('#059669'); 
+                } else {
+                    colors.push('#e11d48'); 
+                }
+            }
             
-            // ปรับความสูงของ Scrollbar กราฟ (40px ต่อ 1 สาขา)
             document.getElementById(wrapperId).style.height = Math.max(500, labels.length * 40) + 'px';
 
             return new Chart(ctx, {
@@ -653,19 +696,20 @@
                     datasets: [{ 
                         label: 'ร้อยละความถูกต้อง', 
                         data: values, 
-                        scoreData: scores, 
+                        scoreData: scores, // แนบไปให้ Plugin ประมวลผล
                         backgroundColor: colors, 
                         borderRadius: 4, 
                         maxBarThickness: 25 
                     }] 
                 },
+                // ยัด Plugin ลงไปเฉพาะในกราฟนี้ (ไม่กวนกราฟอื่น)
+                plugins: [textOnBarPlugin],
                 options: {
                     indexAxis: 'y', 
                     responsive: true, 
                     maintainAspectRatio: false,
                     plugins: { 
                         legend: { display: false }, 
-                        textOnBarPlugin: true, // เปิดการทำงานของปลั๊กอินแสดงตัวเลข
                         tooltip: {
                             titleFont: { family: 'Sarabun', size: 14 },
                             bodyFont: { family: 'Sarabun', size: 14, weight: 'bold' },
@@ -700,27 +744,27 @@
         document.getElementById("loading").classList.add("flex");
 
         fetch(API_URL + "?action=getKpiData&month=" + encodeURIComponent(month))
-            .then(res => res.json())
-            .then(res => {
+            .then(function(res) { return res.json(); })
+            .then(function(res) {
                 if(res && res.values && res.values.length > 0) {
                     kpiRawData = res; 
                     
                     let headHtml = "<tr>";
-                    res.values[0].forEach((h, i) => {
+                    for (let i = 0; i < res.values[0].length; i++) {
                         let bg = res.backgrounds[0][i]; 
                         let fc = res.fontColors[0][i];
+                        let h = res.values[0][i];
                         headHtml += `<th class="px-6 py-4 font-bold border-x border-slate-300 text-center" style="background-color: ${bg}; color: ${fc};">${h}</th>`;
-                    });
+                    }
                     document.getElementById("kpiThead").innerHTML = headHtml + "</tr>";
 
                     renderKpiTable(); 
                 }
-                
                 document.getElementById("loading").classList.add("hidden"); 
                 document.getElementById("loading").classList.remove("flex");
             })
-            .catch(err => {
-                console.error(err);
+            .catch(function(err) {
+                console.error("Error fetching KPI Data:", err);
                 document.getElementById("loading").classList.add("hidden"); 
                 document.getElementById("loading").classList.remove("flex");
             });
@@ -760,13 +804,14 @@
                     bodyHtml += `<td class="px-6 py-2.5 border-x border-slate-300 text-center font-bold text-[14px]" style="background-color: ${bgs[i][j]}; color: ${fcs[i][j]};">${row[j]}</td>`;
                 }
             } else {
-                row.forEach((cell, colIndex) => {
+                for (let colIndex = 0; colIndex < row.length; colIndex++) {
+                    let cell = row[colIndex];
                     let bg = bgs[i][colIndex]; 
                     let fc = fcs[i][colIndex];
                     let align = colIndex === 2 ? "text-left font-medium" : "text-center";
                     
                     bodyHtml += `<td class="px-6 py-2.5 border-x border-slate-300 ${align}" style="background-color: ${bg}; color: ${fc};">${cell}</td>`;
-                });
+                }
             }
             
             bodyHtml += "</tr>";
@@ -782,27 +827,28 @@
         currentFileId = overrideFileId || currentFileId;
         
         fetch(`${API_URL}?action=getSheetData&fileId=${currentFileId}&sheetIndex=${sheetIdx}`)
-            .then(res => res.json())
-            .then(res => {
+            .then(function(res) { return res.json(); })
+            .then(function(res) {
                 allData = res.values; 
                 currentSheetName = res.currentSheetName;
                 
                 let tabHtml = "";
                 
                 if (res.allSheets.length > 1) {
-                    res.allSheets.slice(0, 2).forEach((name, idx) => {
+                    for (let idx = 0; idx < Math.min(res.allSheets.length, 2); idx++) {
+                        let name = res.allSheets[idx];
                         let activeClass = (idx === sheetIdx) ? 'bg-pea text-white shadow-md' : 'bg-white text-slate-600 border border-slate-300 hover:bg-slate-50';
                         tabHtml += `<button class="px-5 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${activeClass}" onclick="loadFile(${idx}, '${currentFileId}')">${name}</button>`;
-                    });
+                    }
                 }
                 
                 document.getElementById("tabArea").innerHTML = tabHtml;
                 
                 let headHtml = "<tr>";
                 if(allData.length > 0) { 
-                    allData[0].forEach(h => {
-                        headHtml += `<th class="px-5 py-4 whitespace-nowrap">${h}</th>`;
-                    }); 
+                    for (let hIndex = 0; hIndex < allData[0].length; hIndex++) {
+                        headHtml += `<th class="px-5 py-4 whitespace-nowrap">${allData[0][hIndex]}</th>`;
+                    }
                 }
                 document.getElementById("thead").innerHTML = headHtml + "</tr>";
                 
@@ -812,8 +858,10 @@
                 document.getElementById("loading").classList.add("hidden"); 
                 document.getElementById("loading").classList.remove("flex");
             })
-            .catch(err => {
-                console.error(err);
+            .catch(function(err) {
+                console.error("Error fetching file:", err);
+                document.getElementById("loading").classList.add("hidden"); 
+                document.getElementById("loading").classList.remove("flex");
             });
     }
 
@@ -842,7 +890,11 @@
             expectedColName = "กฟฟ.";
         } else { 
             expectedColName = "สำนักงาน"; 
-            if(!headers.includes(expectedColName)) {
+            let foundExpected = false;
+            for (let f = 0; f < headers.length; f++) {
+                if (String(headers[f]).trim() === expectedColName) foundExpected = true;
+            }
+            if(!foundExpected) {
                 expectedColName = "กฟฟ.";
             }
         }
@@ -878,7 +930,8 @@
             let counts = {}; 
             let totalValidItems = 0;
             
-            filteredData.forEach(row => {
+            for (let d = 0; d < filteredData.length; d++) {
+                let row = filteredData[d];
                 let officeName = row[targetColIndex];
                 if (officeName === undefined || officeName === null) {
                     officeName = ""; 
@@ -886,18 +939,24 @@
                 officeName = String(officeName).trim();
                 
                 if (currentFileId === "1PwQbHXBAQlpdWlRS0TiNoIMeDblaDBZd_ZhnqiOxDYk") { 
-                    if (officeName === "-" || officeName === "") return; 
+                    if (officeName === "-" || officeName === "") continue; 
                 } else { 
                     if(officeName === "-" || officeName === "") {
                         officeName = "ไม่ระบุ/ว่างเปล่า"; 
                     }
                 }
                 
-                counts[officeName] = (counts[officeName] || 0) + 1; 
+                if (counts[officeName] === undefined) {
+                    counts[officeName] = 0;
+                }
+                counts[officeName] = counts[officeName] + 1; 
                 totalValidItems++;
-            });
+            }
 
-            let sortedOffices = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+            let sortedOffices = Object.entries(counts);
+            sortedOffices.sort(function(a, b) {
+                return b[1] - a[1];
+            });
             
             let chartLabels = []; 
             let chartData = [];
@@ -906,7 +965,11 @@
 
             let listHtml = `<div class="flex flex-col gap-3 h-[40vh] lg:h-auto lg:max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">`;
             
-            sortedOffices.forEach(([name, count], idx) => {
+            for (let s = 0; s < sortedOffices.length; s++) {
+                let name = sortedOffices[s][0];
+                let count = sortedOffices[s][1];
+                let idx = s;
+                
                 chartLabels.push(name); 
                 chartData.push(count);
                 
@@ -939,7 +1002,7 @@
                         ${count}
                     </div>
                 </div>`;
-            });
+            }
             listHtml += `</div>`;
 
             let chartWidth = Math.max(800, chartLabels.length * 55);
@@ -962,7 +1025,7 @@
             document.getElementById("summaryTotalCount").innerText = `พบข้อมูลรวม ${totalValidItems.toLocaleString()} รายการ`;
             document.getElementById("summaryModalBody").innerHTML = htmlContent;
 
-            setTimeout(() => {
+            setTimeout(function() {
                 let canvasEl = document.getElementById('peaBarChart');
                 if(!canvasEl) return; 
                 
@@ -971,6 +1034,7 @@
                     myChartInstance.destroy(); 
                 }
                 
+                // ไม่มีการใช้งาน textOnBarPlugin ที่นี่!
                 myChartInstance = new Chart(ctx, {
                     type: 'bar', 
                     data: { 
@@ -1016,7 +1080,7 @@
             }, 150); 
         }
         
-        setTimeout(() => { 
+        setTimeout(function() { 
             modal.classList.remove("opacity-0"); 
             modalContent.classList.remove("scale-95", "opacity-0"); 
             modalContent.classList.add("scale-100", "opacity-100"); 
@@ -1033,7 +1097,7 @@
         modalContent.classList.remove("scale-100", "opacity-100"); 
         modalContent.classList.add("scale-95", "opacity-0");
         
-        setTimeout(() => { 
+        setTimeout(function() { 
             modal.classList.add("hidden"); 
             modal.classList.remove("flex"); 
         }, 300);
@@ -1048,7 +1112,10 @@
             XLSX.utils.book_append_sheet(wb, ws, "KPI_Data");
         } else {
             if (filteredData.length === 0) return;
-            let exportData = [allData[0], ...filteredData];
+            let exportData = [allData[0]];
+            for (let i = 0; i < filteredData.length; i++) {
+                exportData.push(filteredData[i]);
+            }
             let ws = XLSX.utils.aoa_to_sheet(exportData);
             XLSX.utils.book_append_sheet(wb, ws, "Backlog_Data");
         }
@@ -1092,20 +1159,24 @@
             }
         }
 
-        filteredData = allData.filter((row, index) => {
-            if (index === 0) return false;
+        filteredData = [];
+        for (let r = 1; r < allData.length; r++) {
+            let row = allData[r];
             
             if (currentFileId === "1PwQbHXBAQlpdWlRS0TiNoIMeDblaDBZd_ZhnqiOxDYk") { 
                 let val = opsaColIndex !== -1 ? row[opsaColIndex] : row[0]; 
                 
-                if (val === undefined || val === null) return false; 
+                if (val === undefined || val === null) continue; 
                 
                 let strVal = String(val).trim(); 
-                if (strVal === "" || strVal === "-") return false; 
+                if (strVal === "" || strVal === "-") continue; 
             }
             
-            return row.join(" ").toUpperCase().includes(searchTerm);
-        });
+            let rowString = row.join(" ").toUpperCase();
+            if (rowString.includes(searchTerm)) {
+                filteredData.push(row);
+            }
+        }
 
         let totalItems = filteredData.length; 
         let totalPages = Math.ceil(totalItems / rowsPerPage) || 1;
@@ -1127,10 +1198,12 @@
         
         let bodyHtml = "";
         
-        pageItems.forEach((row, rowIndex) => {
+        for (let p = 0; p < pageItems.length; p++) {
+            let row = pageItems[p];
             bodyHtml += `<tr class="hover:bg-pea/5 transition-colors duration-150 border-b border-slate-100 last:border-b-0">`;
             
-            row.forEach((cell, index) => {
+            for (let index = 0; index < row.length; index++) {
+                let cell = row[index];
                 let cls = "px-5 py-3 whitespace-nowrap"; 
                 let highlight = "";
                 
@@ -1149,10 +1222,10 @@
                 }
                 
                 bodyHtml += `<td class="${cls} ${highlight}">${cell}</td>`;
-            });
+            }
             
             bodyHtml += "</tr>";
-        });
+        }
         
         document.getElementById("tbody").innerHTML = bodyHtml;
     }
